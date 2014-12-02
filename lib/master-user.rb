@@ -6,7 +6,9 @@ module MasterUser
   
 end
 
-utilities_dir = File.dirname(__FILE__) + '/utilities/*.rb'
-models_dir = File.dirname(__FILE__) + '/models/*.rb'
-uploaders_dir = File.dirname(__FILE__) + '/uploaders/*.rb'
-Dir[utilities_dir, uploaders_dir, models_dir].each{|f| require f}
+require 'utilities/uuid'
+require 'uploaders/base_uploader'
+require 'uploaders/user_uploader'
+require 'models/captcha'
+require 'models/token'
+require 'models/user'
