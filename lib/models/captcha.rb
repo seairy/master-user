@@ -2,6 +2,8 @@
 require 'open-uri'
 
 class Captcha < ActiveRecord::Base
+  self.table_name_prefix = ''
+  
   belongs_to :user
 
   before_create :set_content_and_expired_at

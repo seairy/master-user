@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   include AASM
   extend Sunspot::Rails::Searchable::ActsAsMethods
 
+  self.table_name_prefix = ''
+
   mount_uploader :image, UserUploader
 
   has_many :captchas
