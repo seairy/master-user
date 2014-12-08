@@ -63,11 +63,11 @@ class User < ActiveRecord::Base
   end
 
   def follow competitor
-    raise FollowDuplicated unless self.followings.create({ competitor: competitor }).id
+    raise FollowDuplicated unless self.api_followings.create({ competitor: competitor }).id
   end
 
   def unfollow competitor
-    raise InexistentFollowship unless self.followings.where({ competitor: competitor }).first.try(&:destroy)
+    raise InexistentFollowship unless self.api_followings.where({ competitor: competitor }).first.try(&:destroy)
   end
 
   class << self
