@@ -6,7 +6,7 @@ class BaseUploader < CarrierWave::Uploader::Base
 
   def method_missing name, *args, &block
     if name =~ /^w\d{1,4}_h\d{1,4}_(ft|fl)_q\d{2}$/
-      "#{name}_#{File.basename(self.url)}"
+      self.url.blank? ? nil : "#{name}_#{File.basename(self.url)}"
     else
       super
     end
