@@ -8,10 +8,6 @@ class BaseUploader < CarrierWave::Uploader::Base
     'assets'
   end
 
-  def extension_white_list
-    %w(jpg jpeg gif png)
-  end
-
   def filename
      "#{secure_token}.#{file.extension}" if original_filename.present?
   end
