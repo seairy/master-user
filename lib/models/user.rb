@@ -2,7 +2,7 @@
 class User < ActiveRecord::Base
   include UUID
   include AASM
-  # extend Sunspot::Rails::Searchable::ActsAsMethods
+  extend Sunspot::Rails::Searchable::ActsAsMethods
 
   self.table_name_prefix = ''
 
@@ -32,9 +32,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  # searchable do
-  #   text :uuid, :phone, :email, :nickname, :description
-  # end
+  searchable do
+    text :uuid, :phone, :email, :nickname, :description
+  end
 
   validates :phone, uniqueness: true
   validates :nickname, presence: true, length: { maximum: 36 }
