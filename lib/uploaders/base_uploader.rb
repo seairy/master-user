@@ -1,4 +1,17 @@
 # -*- encoding : utf-8 -*-
+
+module CarrierWave
+  module MiniMagick
+    def quality(percentage)
+      manipulate! do |image|
+        image.quality(percentage.to_s)
+        image = yield(image) if block_given?
+        image
+      end
+    end
+  end
+end
+
 class BaseUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 

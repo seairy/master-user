@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "activesupport", ">= 4.0.0"
   s.add_dependency "activemodel", ">= 4.0.0"
   s.add_dependency "carrierwave"
+  s.add_dependency "carrierwave-imageoptimizer"
   s.add_dependency "rmagick"
   s.add_dependency "aasm"
   s.add_dependency "sunspot_rails"
