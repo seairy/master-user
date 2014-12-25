@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
   has_many :api_answers, class_name: 'Asking::Answer'
   has_many :collects
   has_many :api_collects, class_name: 'News::Collect'
+  has_many :orders
+  has_many :api_orders, class_name: 'Booking::Order'
 
   aasm column: 'state' do
     state :validating, :initial => true
