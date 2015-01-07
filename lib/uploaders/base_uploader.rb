@@ -1,16 +1,33 @@
 # -*- encoding : utf-8 -*-
+
+module CarrierWave
+  module MiniMagick
+    def quality(percentage)
+      manipulate! do |image|
+        image.quality(percentage.to_s)
+        image = yield(image) if block_given?
+        image
+      end
+    end
+  end
+end
+
 class BaseUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   storage :aliyun
 
+  def method_missing name, *args, &block
+    if name =~ /^w\d{1,4}_h\d{1,4}_(ft|fl)_q\d{2}$/
+      self.url.blank? ? nil : "#{name}_#{File.basename(self.url)}"
+    else
+      super
+    end
+  end
+
   def store_dir
     'assets'
   end
-
-  # def extension_white_list
-  #   %w(jpg jpeg gif png)
-  # end
 
   def filename
      "#{secure_token}" if original_filename.present?

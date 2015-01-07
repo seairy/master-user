@@ -4,12 +4,23 @@ class User < ActiveRecord::Base
   include AASM
   extend Sunspot::Rails::Searchable::ActsAsMethods
 
+  self.table_name_prefix = ''
+
   mount_uploader :image, UserUploader
 
   has_many :captchas
   has_many :tokens
   has_many :followings, class_name: 'Followship'
   has_many :messages
+  has_many :api_followings, class_name: 'Match::Followship'
+  has_many :questions
+  has_many :api_questions, class_name: 'Asking::Question'
+  has_many :answers
+  has_many :api_answers, class_name: 'Asking::Answer'
+  has_many :collects
+  has_many :api_collects, class_name: 'News::Collect'
+  has_many :orders
+  has_many :api_orders, class_name: 'Booking::Order'
 
   aasm column: 'state' do
     state :validating, :initial => true
@@ -24,9 +35,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  searchable do
-    text :uuid, :phone, :email, :nickname, :description
-  end
+  # searchable do
+  #   text :uuid, :phone, :email, :nickname, :description
+  # end
 
   validates :phone, uniqueness: true
   validates :nickname, presence: true, length: { maximum: 36 }
@@ -55,11 +66,11 @@ class User < ActiveRecord::Base
   end
 
   def follow competitor
-    raise FollowDuplicated unless self.followings.create({ competitor: competitor }).id
+    raise FollowDuplicated unless self.api_followings.create({ competitor: competitor }).id
   end
 
   def unfollow competitor
-    raise InexistentFollowship unless self.followings.where({ competitor: competitor }).first.try(&:destroy)
+    raise InexistentFollowship unless self.api_followings.where({ competitor: competitor }).first.try(&:destroy)
   end
 
   class << self
