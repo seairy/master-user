@@ -10,7 +10,7 @@ class UserGenerator < Rails::Generators::Base
   end
 
   def self.source_root
-    File.join(File.dirname(__FILE__), 'templates', (orm.to_s unless orm.class.eql?(String)) )
+    File.expand_path("../templates", __FILE__)
   end
 
   def self.orm_has_migration?
