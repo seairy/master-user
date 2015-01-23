@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
   end
 
   def send_sms options = {}
-    message = { phone_number: self.phone content: options[:content] }
+    message = { phone_number: self.phone, content: options[:content] }
     Aliyun::Mqs::Queue["golf-sms"].send_message(message.to_json)
   end
 
