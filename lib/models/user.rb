@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
 
   def send_push options = {}
     message = { destination: :user, cid: self.cid, service: options[:service], params: options[:params], content: options[:content] }
-    Aliyun::Mqs::Queue["golf-sms"].send_message(message.to_json)
+    Aliyun::Mqs::Queue["golf-push"].send_message(message.to_json)
   end
 
   class << self
