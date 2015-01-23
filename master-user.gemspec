@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_dependency "rmagick"
   s.add_dependency "aasm"
   s.add_dependency "sunspot_rails"
+  s.add_dependency "aliyun-mqs"
 end
