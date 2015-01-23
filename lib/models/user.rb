@@ -72,6 +72,16 @@ class User < ActiveRecord::Base
     raise InexistentFollowship unless self.api_followings.where({ competitor: competitor }).first.try(&:destroy)
   end
 
+  def send_sms options = {}
+    message = { phone_number: self.phone content: options[:content] }
+    Aliyun::Mqs::Queue["golf-sms"].send_message(message.to_json)
+  end
+
+  def send_push options = {}
+    message = { destination: :user, cid: self.cid, service: options[:service], params: options[:params], content: options[:content] }
+    Aliyun::Mqs::Queue["golf-sms"].send_message(message.to_json)
+  end
+
   class << self
     def find_or_create phone
       self.where(phone: phone).first || self.create({ phone: phone, nickname: "用户****#{phone[-4..-1]}" })
@@ -79,6 +89,11 @@ class User < ActiveRecord::Base
 
     def bulk_find uuids
       uuids.split(",").map{|uuid| User.where(uuid: uuid).first}.compact
+    end
+
+    def send_push options = {}
+      message = { destination: :all, cid: nil, service: options[:service], params: options[:params], content: options[:content] }
+      Aliyun::Mqs::Queue["golf-push"].send_message(message.to_json)
     end
   end
 end
