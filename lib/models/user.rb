@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :captchas
   has_many :tokens
   has_many :followings, class_name: 'Followship'
+  has_many :messages
   has_many :api_followings, class_name: 'Match::Followship'
   has_many :questions
   has_many :api_questions, class_name: 'Asking::Question'
