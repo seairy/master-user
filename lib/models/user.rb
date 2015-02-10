@@ -82,7 +82,11 @@ class User < ActiveRecord::Base
     message = { to: :user, cid: self.cid }.merge!(options)
     Aliyun::Mqs::Queue["golf-push"].send_message(message.to_json)
   end
-
+  def send_message message 
+    Aliyun::Mqs::Queue["golf-message"].send_message(message)
+  end
+    
+  end
   class << self
     def find_or_create phone
       self.where(phone: phone).first || self.create({ phone: phone, nickname: "用户****#{phone[-4..-1]}" })
