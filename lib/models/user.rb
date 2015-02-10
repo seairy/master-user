@@ -73,17 +73,17 @@ class User < ActiveRecord::Base
     raise InexistentFollowship unless self.api_followings.where({ competitor: competitor }).first.try(&:destroy)
   end
 
-  def send_sms options = {}
-    message = { phone_number: self.phone, content: options[:content] }
-    Aliyun::Mqs::Queue["golf-sms"].send_message(message.to_json)
-  end
+  # def send_sms options = {}
+  #   message = { phone_number: self.phone, content: options[:content] }
+  #   Aliyun::Mqs::Queue["golf-sms"].send_message(message.to_json)
+  # end
 
   def send_push options = {}
     message = { to: :user, cid: self.cid }.merge!(options)
     Aliyun::Mqs::Queue["golf-push"].send_message(message.to_json)
   end
-  def send_message message 
-    Aliyun::Mqs::Queue["golf-message"].send_message(message)
+  def send_sms message 
+    Aliyun::Mqs::Queue["golf-sms"].send_message(message)
   end
     
   class << self
