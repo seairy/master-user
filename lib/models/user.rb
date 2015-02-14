@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
 
   def send_push options = {}
     message = { to: :user, cid: self.cid }.merge!(options)
-    Aliyun::Mqs::Queue["golf-push"].send_message(message.to_json)
+    Aliyun::Mqs::Queue["golf-push-production"].send_message(message.to_json)
   end
   def send_sms message 
     Aliyun::Mqs::Queue["golf-sms"].send_message(message)
@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
 
     def send_push options = {}
       message = { to: :all, cid: nil }.merge!(options)
-      Aliyun::Mqs::Queue["golf-push"].send_message(message.to_json)
+      Aliyun::Mqs::Queue["golf-push-production"].send_message(message.to_json)
     end
   end
 end
