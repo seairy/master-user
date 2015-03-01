@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
 
     def send_push options = {}
       message = { to: :all, cid: nil }.merge!(options)
-      Aliyun::Mqs::Queue[ENV['push-queue']].send_message(message.to_json)
+      Aliyun::Mqs::Queue[ENV['PushQueue']].send_message(message.to_json)
     end
   end
 end
