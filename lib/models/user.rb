@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
 
   def send_push options = {}
     message = { to: :user, cid: self.cid }.merge!(options)
-    Aliyun::Mqs::Queue[ENV['PushQueue'].send_message(message.to_json)
+    Aliyun::Mqs::Queue[ENV['PushQueue']].send_message(message.to_json)
   end
   def send_sms message 
     Aliyun::Mqs::Queue["golf-sms"].send_message(message)
@@ -95,9 +95,9 @@ class User < ActiveRecord::Base
       uuids.split(",").map{|uuid| User.where(uuid: uuid).first}.compact
     end
 
-    # def send_push options = {}
-    #   message = { to: :all, cid: nil }.merge!(options)
-    #   Aliyun::Mqs::Queue[ENV['PushQueue']].send_message(message.to_json)
-    # end
+    def send_push options = {}
+      message = { to: :all, cid: nil }.merge!(options)
+      Aliyun::Mqs::Queue[ENV['PushQueue']].send_message(message.to_json)
+    end
   end
 end
